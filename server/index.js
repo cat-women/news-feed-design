@@ -10,6 +10,7 @@ const ErrorHandler = require('./src/middleware/errorHandler.js')
 const User = require('./src/routes/user.js')
 const Post = require('./src/routes/post.js')
 const Comment = require('./src/routes/comment.js')
+const Connection = require('./src/routes/connection.js')
 
 const app = express()
 const PORT = process.env.PORT || 8000
@@ -40,3 +41,4 @@ app.use(ErrorHandler)
 app.use('/user', User)
 app.use('/post', Post)
 app.use('/comment', Comment)
+app.use('/connection', Connection)
