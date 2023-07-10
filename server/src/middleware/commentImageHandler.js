@@ -4,7 +4,7 @@ const fs = require('fs')
 
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
-    cb(null, './public/posts')
+    cb(null, './public/comments')
   },
   limits: {
     fileSize: 1000000 // 1000000 Bytes = 1 MB
@@ -14,12 +14,10 @@ const storage = multer.diskStorage({
     const fileName =
       file.fieldname + '_' + Date.now() + path.extname(file.originalname)
     cb(null, fileName)
-    let filePath = `http://localhost/public/posts/${fileName}`
-
-    if (!req.images) req.images = [filePath]
-    else req.images.push(filePath)
+    req.images = `http://localhost/public/comments/${fileName}`
   }
 })
+
 const upload = multer({ storage: storage })
 
 function deleteImage(filePath) {

@@ -9,6 +9,7 @@ require('dotenv').config()
 const ErrorHandler = require('./src/middleware/errorHandler.js')
 const User = require('./src/routes/user.js')
 const Post = require('./src/routes/post.js')
+const Comment = require('./src/routes/comment.js')
 
 const app = express()
 const PORT = process.env.PORT || 8000
@@ -19,7 +20,6 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + '/public'))
-app.use('/uploads', express.static('uploads'))
 
 // database connection
 
@@ -39,3 +39,4 @@ app.use(ErrorHandler)
 // routes
 app.use('/user', User)
 app.use('/post', Post)
+app.use('/comment', Comment)

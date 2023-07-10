@@ -8,7 +8,7 @@ const postSchema = mongoose.Schema(
       ref: 'User'
     },
     postText: String,
-    postImage: String,
+    postImage: [String],
     upVoteCount: {
       type: Number,
       default: 0
