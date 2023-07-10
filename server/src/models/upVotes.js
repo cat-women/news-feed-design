@@ -1,15 +1,12 @@
-const {ObjectId} = require('mongodb')
+const mongoose = require('mongoose')
 
-let
-    mongooseLocal = require('mongoose'),
-    {Schema} = mongooseLocal
-
-
-module.exports = function(conn) {
-
-    const UpVotes = new Schema({
-        userId: ObjectId,
-        postId: ObjectId
-    })
-    conn.model('UpVotes', UpVotes)
-}
+const upVoteSchema = mongoose.Schema(
+  {
+    userId: ObjectId,
+    postId: ObjectId
+  },
+  {
+    timestamps: false 
+  }
+)
+module.exports = mongoose.model('upVote', upVoteSchema)

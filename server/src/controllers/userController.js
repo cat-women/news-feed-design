@@ -1,11 +1,10 @@
 const User = require('../models/user.js')
 const bcrypt = require('bcryptjs')
-const { generateToken } = require('../services/token')
-
+const generateToken = require('../services/token')
 
 class UserController {
   signup = async (req, res, next) => {
-    const { firstName, lastName, username, email, password } = req.body
+    const { firstName, lastName, email, password } = req.body
 
     try {
       const oldUser = await User.findOne({
@@ -16,12 +15,12 @@ class UserController {
 
       const hashedPassword = await bcrypt.hash(password, 12)
 
-      const result = await User.create({
+      await User.create({
         firstName,
         lastName,
         username: firstName,
         email,
-        password
+        password: hashedPassword
       })
 
       return res.status(200).json({ msg: 'User created' })
@@ -37,8 +36,7 @@ class UserController {
       const oldUser = await User.findOne({
         email
       })
-      if (!oldUser)
-        return res.status(404).json({ msg: 'User doesnt not exit ' })
+      if (!oldUser) return res.status(404).json({ msg: 'User does not exit ' })
 
       const isPasswordCorrect = await bcrypt.compare(password, oldUser.password)
       if (!isPasswordCorrect)
