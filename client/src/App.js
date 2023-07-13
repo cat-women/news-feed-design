@@ -1,4 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -6,49 +9,40 @@ import Toolbar from '@mui/material/Toolbar'
 import TextField from '@mui/material/TextField'
 import InputLabel from '@mui/material/InputLabel'
 import Grid from '@mui/material/Grid'
-import './App.css'
+import CircularProgress from '@mui/material/CircularProgress'
 
-import SideNavbar from './components/sideNavbar'
-import Newsfeed from './components/newsfeed'
+import './App.css'
+// reducers
+import { getPosts } from './actions/post'
+
+import Newsfeeds from './components/newsfeeds'
+import Friends from './components/friends'
 
 function App() {
-  const drawerWidth = 240
+  const dispatch = useDispatch()
+  const { posts, isLoading } = useSelector(store => store.posts)
+
+  useEffect(() => {
+    dispatch(getPosts())
+  }, [])
 
   return (
     <div className="App">
-      {/** Sidenavbar */}
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
-      >
-        <SideNavbar
-          variant="temporary"
-          ModalProps={{ keepMounted: true }}
-          sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': {
-              boxSizing: 'border-box',
-              width: drawerWidth
-            }
-          }}
-        />
-      </Box>
-      <AppBar
-        position="fixed"
-        sx={{
-          background: 'white',
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` }
-        }}
-      >
+      <AppBar position="fixed" sx={{ background: 'white', width: '100%' }}>
         <Toolbar>
           <InputLabel sx={{ marginLeft: '129px' }}>Expression :</InputLabel>
         </Toolbar>
       </AppBar>
-      <div className="newsfeed-container">
-        <Newsfeed />
-        <Newsfeed />
+      {/** Sidenavbar */}
+      <div className="container">
+        <div>
+          {isLoading
+            ? <CircularProgress sx={{ marginTop: '30px' }} />
+            : <Newsfeeds posts={posts} />}
+        </div>
+        <div>
+          <Friends />
+        </div>
       </div>
     </div>
   )

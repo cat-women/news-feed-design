@@ -1,4 +1,6 @@
 const Post = require('../models/post.js')
+const User = require('../models/user.js')
+
 const { deleteImage } = require('../middleware/imageHandler')
 const {
   calcSimilarities,
@@ -51,10 +53,15 @@ class PostController {
       }
     ]
 
-    const posts = await Post.find().select('postText').exec()
+    const posts = await Post.find()
+      .populate({
+        path: 'userId',
+        select: 'firstName lastName'
+      })
+      .exec()
+    const formatedData = posts.map(({ _id, postText }) => ({ _id, postText }))
 
-    const trainData = calcSimilarities(userPosts, posts)
-    console.log('train data', trainData)
+    const trainData = calcSimilarities(userPosts, formatedData)
 
     const results = getRecommendedPost(trainData, posts)
     res.status(200).json(results)

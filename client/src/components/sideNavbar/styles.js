@@ -5,7 +5,7 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2)
   },
   list: {
-    width: 300,
+    width: "600",
     
   }
 }));

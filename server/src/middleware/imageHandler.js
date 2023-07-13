@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
     const fileName =
       file.fieldname + '_' + Date.now() + path.extname(file.originalname)
     cb(null, fileName)
-    let filePath = `http://localhost/public/posts/${fileName}`
+    let filePath = `http://localhost:8000/public/posts/${fileName}`
 
     if (!req.images) req.images = [filePath]
     else req.images.push(filePath)

@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(express.static(__dirname + '/public'))
+app.use('/public', express.static(__dirname + '/public'))
 
 // database connection
 

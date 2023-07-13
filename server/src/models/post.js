@@ -24,4 +24,4 @@ const postSchema = mongoose.Schema(
 )
 postSchema.index({ userId: 1 })
 
-module.exports = mongoose.model('Posts', postSchema)
+module.exports = mongoose.model('Post', postSchema)

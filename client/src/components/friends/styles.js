@@ -9,6 +9,9 @@ const theme = createTheme({
           color: 'red'
         }
       }
+    },
+    MuiButton: {
+      color: 'green'
     }
   }
 })
@@ -16,16 +19,18 @@ const theme = createTheme({
 const useStyles = makeStyles(() => ({
   container: {
     margin: '20px',
-    padding: '10px'
+    padding: '10px',
+    display: 'flex',
+    flexDirection: 'column',
   },
   userName: {
     fontWeight: 'bold',
     fontSize: '1.5rem',
     marginLeft: '30px',
-    marginTop: '30px'
+    alignText: 'start'
   },
   userImage: {
-    width: '80%',
+    width: '60%',
     margin: '30px',
     alignItem: 'center'
   },
@@ -37,15 +42,19 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     marginTop: '51px',
     justifyContent: 'center'
-    // marginTop: theme.spacing(4)
+  },
+
+  poster: {
+    display: 'flex',
+    marginTop: '10px',
+    marginLeft: '30px',
+    justifyContent: 'start'
   },
   likeIcon: {
-    // marginRight: theme.spacing(1),
     fontSize: '1.5rem',
     marginRight: '30px'
   },
   dislikeIcon: {
-    // marginRight: theme.spacing(1),
     fontSize: '1.5rem',
     marginRight: '30px'
   },
@@ -55,8 +64,11 @@ const useStyles = makeStyles(() => ({
   commentField: {
     margin: '30px',
     display: 'flex',
-    width:'70%',
-    alignText:'center'
+    width: '70%',
+    alignText: 'center'
+  },
+  viewMoreBtn: {
+    marginLeft: '30px'
   }
 }))
 
