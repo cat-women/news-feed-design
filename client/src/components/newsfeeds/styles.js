@@ -21,7 +21,7 @@ const useStyles = makeStyles(() => ({
     margin: '20px',
     padding: '10px',
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'column'
   },
   userName: {
     fontWeight: 'bold',
@@ -69,6 +69,17 @@ const useStyles = makeStyles(() => ({
   },
   viewMoreBtn: {
     marginLeft: '30px'
+  },
+  comment: {
+    margin: '15px'
+  },
+  commenter: {
+    display: 'flex',
+    margin: '3px'
+  },
+  commentIconsContainer: {
+    display: 'flex',
+   
   }
 }))
 

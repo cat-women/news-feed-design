@@ -11,9 +11,21 @@ const User = require('./src/routes/user.js')
 const Post = require('./src/routes/post.js')
 const Comment = require('./src/routes/comment.js')
 const Connection = require('./src/routes/connection.js')
+const Vote = require('./src/routes/upVote.js')
 
 const app = express()
+const router = express.Router()
+
 const PORT = process.env.PORT || 8000
+
+router.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET, POST, OPTIONS, PUT, PATCH, DELETE'
+  )
+  res.header('Access-Control-Allow-Headers', 'Authorization')
+})
 
 app.use(bodyParser.json({ limit: '30mb', extended: true }))
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
@@ -34,7 +46,7 @@ mongoose
   )
   .catch(err => console.log(err.message))
 
-// erro handler
+// error handler
 app.use(ErrorHandler)
 
 // routes
@@ -42,3 +54,4 @@ app.use('/user', User)
 app.use('/post', Post)
 app.use('/comment', Comment)
 app.use('/connection', Connection)
+app.use('/vote', Vote)

@@ -34,6 +34,8 @@ class PostController {
   }
 
   getAllPost = async (req, res, next) => {
+    let userId = new ObjectId('64afd500fcb014b79efd3751')
+
     /**
      * 1. get all post 
      * 2. get all post that user has liked 
@@ -52,13 +54,74 @@ class PostController {
           'Police arrest five individuals involved in illegal online gambling and cryptocurrency trading'
       }
     ]
+    const posts = await Post.aggregate([
+      {
+        $lookup: {
+          from: 'comments',
+          let: { postId: '$_id' },
+          pipeline: [
+            {
+              $match: {
+                $expr: { $eq: ['$postId', '$$postId'] }
+              }
+            },
+            {
+              $lookup: {
+                from: 'users',
+                localField: 'userId',
+                foreignField: '_id',
+                as: 'commenter'
+              }
+            },
+            {
+              $unwind: '$commenter'
+            },
+            {
+              $project: {
+                commentText: 1,
+                commenter: '$commenter.username',
+                commenterId: '$commenter._id'
+              }
+            }
+          ],
+          as: 'comments'
+        }
+      },
+      {
+        $lookup: {
+          from: 'upvotes',
+          localField: '_id',
+          foreignField: 'postId',
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ['$userId', userId]
+                }
+              }
+            }
+          ],
+          as: 'upvotes'
+        }
+      },
+      {
+        $addFields: {
+          likedByUser: {
+            $cond: {
+              if: { $gt: [{ $size: '$upvotes' }, 0] },
+              then: true,
+              else: false
+            }
+          }
+        }
+      },
+      {
+        $project: {
+          upvotes: 0 // Exclude the upvotes field from the output
+        }
+      }
+    ]).exec()
 
-    const posts = await Post.find()
-      .populate({
-        path: 'userId',
-        select: 'firstName lastName'
-      })
-      .exec()
     const formatedData = posts.map(({ _id, postText }) => ({ _id, postText }))
 
     const trainData = calcSimilarities(userPosts, formatedData)

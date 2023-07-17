@@ -1,18 +1,22 @@
 const Comment = require('../models/comment.js')
 const Post = require('../models/post.js')
+const { ObjectId } = require('mongodb')
 
 const { deleteImage } = require('../middleware/commentImageHandler')
 
 class CommentController {
   createComment = async (req, res, next) => {
-    const { userId, postId, parentId, commentText } = req.body
+    const postId = req.params.id
+    const userId = new ObjectId('64afd500fcb014b79efd3751')
+    const { parentId, commentText } = req.body
+
     try {
       await Comment.create({
         userId,
         postId,
-        parentId,
+        parentId: parentId ? parentId : null,
         commentText,
-        commentImage: req.images
+        commentImage: req.images ? req.images : ''
       })
 
       await Post.findOneAndUpdate(

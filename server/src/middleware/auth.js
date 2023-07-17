@@ -1,7 +1,15 @@
 const { ObjectId } = require('mongodb')
+const { verifyAccessToken, verifyRefreshToken } = require('../services/token')
 
 const authUser = async (req, res, next) => {
-  req.user = { username: 'test', _id: ObjectId('64aaf5bf79de80835a8a31bc') }
+  const access_token = req.headers['authorization'].replace('Bearer ', '')
+  const { decoded, error } = verifyAccessToken(access_token)
+
+  if (error) {
+    return res.status(401).json({ msg: 'Authentication failed', error })
+  }
+  req.user = decoded
+
   next()
 }
 

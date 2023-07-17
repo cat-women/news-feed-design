@@ -4,7 +4,7 @@ class ConnectionController {
   sendConnection = async (req, res, next) => {
     try {
       await Connection.create({
-        requestorId: req.user._id,
+        requestorId: req.user.id,
         receiverId: req.params.id
       })
       res.status(200).json({ msg: 'Connection request send' })

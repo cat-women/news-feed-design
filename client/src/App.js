@@ -14,16 +14,20 @@ import CircularProgress from '@mui/material/CircularProgress'
 import './App.css'
 // reducers
 import { getPosts } from './actions/post'
+import { getUsers } from './actions/user'
 
 import Newsfeeds from './components/newsfeeds'
 import Friends from './components/friends'
+import Form from './components/auth/form'
 
 function App() {
   const dispatch = useDispatch()
   const { posts, isLoading } = useSelector(store => store.posts)
+  const user = sessionStorage.getItem('user')
 
   useEffect(() => {
     dispatch(getPosts())
+    dispatch(getUsers())
   }, [])
 
   return (
@@ -33,7 +37,7 @@ function App() {
           <InputLabel sx={{ marginLeft: '129px' }}>Expression :</InputLabel>
         </Toolbar>
       </AppBar>
-      {/** Sidenavbar */}
+      {!user && <Form />}
       <div className="container">
         <div>
           {isLoading

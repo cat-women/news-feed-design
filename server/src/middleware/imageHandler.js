@@ -11,13 +11,16 @@ const storage = multer.diskStorage({
   },
 
   filename: function(req, file, cb) {
-    const fileName =
-      file.fieldname + '_' + Date.now() + path.extname(file.originalname)
-    cb(null, fileName)
-    let filePath = `http://localhost:8000/public/posts/${fileName}`
+    if (!file) req.images.push('')
+    else {
+      const fileName =
+        file.fieldname + '_' + Date.now() + path.extname(file.originalname)
+      cb(null, fileName)
+      let filePath = `http://localhost:8000/public/posts/${fileName}`
 
-    if (!req.images) req.images = [filePath]
-    else req.images.push(filePath)
+      if (!req.images) req.images = [filePath]
+      else req.images.push(filePath)
+    }
   }
 })
 const upload = multer({ storage: storage })

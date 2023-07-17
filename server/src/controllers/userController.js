@@ -1,6 +1,9 @@
 const User = require('../models/user.js')
+const Connection = require('../models/connection.js')
+
 const bcrypt = require('bcryptjs')
-const generateToken = require('../services/token')
+const { generateToken } = require('../services/token')
+const { ObjectId } = require('mongodb')
 
 class UserController {
   signup = async (req, res, next) => {
@@ -48,9 +51,42 @@ class UserController {
         id: oldUser._id
       })
 
-      return res
-        .status(200)
-        .json({ msg: 'Login success', access_token, refresh_token })
+      return res.status(200).json({
+        msg: 'Login success',
+        data: {
+          access_token,
+          refresh_token,
+          id: oldUser._id,
+          username: oldUser.username
+        }
+      })
+    } catch (error) {
+      console.log(error)
+      next()
+    }
+  }
+
+  getUsers = async (req, res, next) => {
+    const userId = new ObjectId('64afd500fcb014b79efd3751')
+    const cons = await Connection.find().exec()
+
+    let conIds = []
+    cons.map(con => {
+      if (!conIds.includes(con.requestorId)) conIds.push(con.requestorId)
+      if (!conIds.includes(con.receiverId)) conIds.push(con.receiverId)
+    })
+
+    try {
+      const users = await User.find(
+        {
+          _id: { $ne: userId, $nin: conIds }
+        },
+        {
+          username: 1
+        }
+      )
+
+      res.status(200).json(users)
     } catch (error) {
       console.log(error)
       next()
