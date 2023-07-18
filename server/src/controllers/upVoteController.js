@@ -3,7 +3,7 @@ const Post = require('../models/post')
 
 class voteController {
   addVote = async (req, res, next) => {
-    const userId = req.user.id
+    const userId = req.user?.id
     const postId = req.params.id
     let vote = Number(req.params.query) === 1 ? 1 : -1
     try {

@@ -10,8 +10,7 @@ import {
   Button,
   FormControl,
   FormControlLabel,
-  RadioGroup,
-  Radio
+  TextField
 } from '@material-ui/core'
 
 import makeStyles from './styles.js'
@@ -23,7 +22,6 @@ const PostForm = () => {
   const [imagePreviews, setImagePreviews] = useState([])
 
   const [postText, setPostText] = useState('')
-  const [image, setImage] = useState({ preview: '', data: '' })
 
   const selectFiles = event => {
     let images = []
@@ -65,16 +63,22 @@ const PostForm = () => {
         <form className={classes.form} onSubmit={handleSubmit}>
           <Grid className={classes.input}>
             <input
+              sx={{ margin: '10px' }}
               type="file"
               multiple
               accept="image/*"
               onChange={selectFiles}
             />
-            {imagePreviews &&
-              <img src={imagePreviews[0]} width="100" height="100" />}
+            <div>
+              {imagePreviews.length &&
+                imagePreviews.map((preview, index) =>
+                  <img src={preview} width="100" height="100" key={index} />
+                )}
+            </div>
 
-            <Input
-              type="textarea"
+            <TextField
+            className = {classes.textArea}
+              multiline
               name="postText"
               placeholder="Text here"
               autoFocus
@@ -82,10 +86,8 @@ const PostForm = () => {
               onChange={e => setPostText(e.target.value)}
             />
           </Grid>
-          <Grid className={classes.footer1}>
-            <Button className={classes.btnSubmit} type="submit">
-              Upload
-            </Button>
+          <Grid>
+            <Button type="submit">Upload</Button>
           </Grid>
         </form>
       </Paper>

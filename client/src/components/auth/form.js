@@ -23,7 +23,7 @@ const initialState = {
   email: '',
   password: ''
 }
-const Form = () => {
+const Form = (props) => {
   const classess = makeStyles()
   const [isSignUp, setIsSignUp] = useState(true)
   const [formData, setformData] = useState(initialState)
@@ -50,7 +50,11 @@ const Form = () => {
     e.preventDefault()
     if (isSignUp) {
       dispatch(signUp(formData))
-    } else dispatch(signIn(formData))
+      setIsSignUp(!isSignUp)
+    } else {
+      dispatch(signIn(formData))
+      props.setUser(sessionStorage.getItem('user'))
+    }
   }
 
   return (

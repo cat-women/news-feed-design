@@ -81,9 +81,18 @@ const useStyles = makeStyles(() => ({
   commentIconsContainer: {
     display: 'flex'
   },
-  postFormContainer:{
-    width : '600px',
-    marginTop :'100px'
+  postFormContainer: {
+    width: '600px',
+    marginTop: '100px'
+  },
+  form: {
+    display: 'flex',
+    padding: '50px',
+    flexDirection: 'column'
+  },
+  textArea: {
+    marginTop: '10px',
+    padding: '10px'
   }
 }))
 

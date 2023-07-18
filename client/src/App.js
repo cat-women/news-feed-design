@@ -25,13 +25,17 @@ import PostForm from './components/newsfeeds/postNews'
 function App() {
   const dispatch = useDispatch()
   const { posts, isLoading } = useSelector(store => store.posts)
-  const user = sessionStorage.getItem('user')
+  // const user = sessionStorage.getItem('user')
+  const [user, setUser] = useState(undefined)
 
-  useEffect(() => {
-    dispatch(getPosts())
-    dispatch(getUsers())
-    dispatch(getConnections())
-  }, [])
+  useEffect(
+    () => {
+      dispatch(getPosts())
+      dispatch(getUsers())
+      dispatch(getConnections())
+    },
+    [user]
+  )
 
   return (
     <div className="App">
@@ -40,7 +44,7 @@ function App() {
           <InputLabel sx={{ marginLeft: '129px' }}>Expression :</InputLabel>
         </Toolbar>
       </AppBar>
-      {!user && <Form />}
+      {!user && <Form setUser={setUser} />}
       <PostForm />
 
       <div className="container">

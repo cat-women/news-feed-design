@@ -35,14 +35,9 @@ class PostController {
   }
 
   getAllPost = async (req, res, next) => {
-    let userId = new ObjectId('64afd500fcb014b79efd3751')
-
-    /**
-     * 1. get all post 
-     * 2. get all post that user has liked 
-     * 3. calculate similarity between like post and remaining post 
-     * 4. recommend movies 
-     */
+    let userId = req.user?.id
+/*
+To test alogirthm
     const userPosts = [
       {
         _id: new ObjectId('64ac27854c16f5f3c626a310'),
@@ -55,6 +50,7 @@ class PostController {
           'Police arrest five individuals involved in illegal online gambling and cryptocurrency trading'
       }
     ]
+    */
     const posts = await Post.aggregate([
       {
         $lookup: {
@@ -127,6 +123,13 @@ class PostController {
               else: false
             }
           },
+          commentedByUser: {
+            $cond: {
+              if: { $gt: [{ $size: '$comments' }, 0] },
+              then: true,
+              else: false
+            }
+          },
           author: `$author.username`
         }
       },
@@ -137,9 +140,14 @@ class PostController {
       }
     ]).exec()
 
-    const formatedData = posts.map(({ _id, postText }) => ({ _id, postText }))
+    const userPosts = posts.filter(post => post.likedByUser || post.commentedByUser)
+    if(userPosts.length <=0)
+     return res.status(200).json(posts)
 
-    const trainData = calcSimilarities(userPosts, formatedData)
+    const formatedData = posts.map(({ _id, postText }) => ({ _id, postText }))
+    const formatedUserData = userPosts.map(({ _id, postText }) => ({ _id, postText }))
+
+    const trainData = calcSimilarities(formatedUserData, formatedData)
 
     const results = getRecommendedPost(trainData, posts)
     res.status(200).json(results)
