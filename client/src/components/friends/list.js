@@ -11,7 +11,7 @@ import useStyles from './styles'
 const conType = {
   '1': 'Friends',
   '2': 'Connection Requested',
-  '3': 'Request send'
+  '3': 'Request sent'
 }
 
 export default function FriendsList(props) {

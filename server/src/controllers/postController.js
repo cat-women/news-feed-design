@@ -18,6 +18,7 @@ class PostController {
         postText,
         postImage: req.images
       })
+
       res.status(200).json({ msg: 'new post created' })
     } catch (error) {
       console.log(error)
@@ -105,6 +106,19 @@ class PostController {
         }
       },
       {
+        $lookup: {
+          from: 'users',
+          localField: 'userId',
+          foreignField: '_id',
+          as: 'author'
+        }
+      },
+      {
+        $unwind: {
+          path: '$author'
+        }
+      },
+      {
         $addFields: {
           likedByUser: {
             $cond: {
@@ -112,12 +126,13 @@ class PostController {
               then: true,
               else: false
             }
-          }
+          },
+          author: `$author.username`
         }
       },
       {
         $project: {
-          upvotes: 0 // Exclude the upvotes field from the output
+          upvotes: 0
         }
       }
     ]).exec()

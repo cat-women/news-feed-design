@@ -20,6 +20,7 @@ import { getConnections } from './actions/connection'
 import Newsfeeds from './components/newsfeeds'
 import Friends from './components/friends'
 import Form from './components/auth/form'
+import PostForm from './components/newsfeeds/postNews'
 
 function App() {
   const dispatch = useDispatch()
@@ -30,7 +31,6 @@ function App() {
     dispatch(getPosts())
     dispatch(getUsers())
     dispatch(getConnections())
-
   }, [])
 
   return (
@@ -41,6 +41,8 @@ function App() {
         </Toolbar>
       </AppBar>
       {!user && <Form />}
+      <PostForm />
+
       <div className="container">
         <div>
           {isLoading

@@ -15,7 +15,11 @@ export const getPosts = createAsyncThunk('posts', async thunkAPI => {
 
 export const addPost = createAsyncThunk('posts', async (data, thunkAPI) => {
   try {
-    const resp = await axios.post('post', data)
+    const resp = await axios.post('post', data, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
     return resp.data
   } catch (error) {
     console.log('Get post error', error)

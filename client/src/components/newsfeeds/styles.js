@@ -36,7 +36,8 @@ const useStyles = makeStyles(() => ({
   },
   content: {
     marginLeft: '30px',
-    marginRight: '30px'
+    marginRight: '30px',
+    paddingTop: '100px '
   },
   iconsContainer: {
     display: 'flex',
@@ -78,8 +79,11 @@ const useStyles = makeStyles(() => ({
     margin: '3px'
   },
   commentIconsContainer: {
-    display: 'flex',
-   
+    display: 'flex'
+  },
+  postFormContainer:{
+    width : '600px',
+    marginTop :'100px'
   }
 }))
 
