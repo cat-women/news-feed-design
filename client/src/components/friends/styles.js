@@ -21,7 +21,7 @@ const useStyles = makeStyles(() => ({
     margin: '20px',
     padding: '10px',
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'column'
   },
   userName: {
     fontWeight: 'bold',
@@ -69,6 +69,11 @@ const useStyles = makeStyles(() => ({
   },
   viewMoreBtn: {
     marginLeft: '30px'
+  },
+  acceptBtn: {
+    margin: '10px',
+    color: 'red',
+    background: 'red'
   }
 }))
 

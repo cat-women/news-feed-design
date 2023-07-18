@@ -15,6 +15,7 @@ import './App.css'
 // reducers
 import { getPosts } from './actions/post'
 import { getUsers } from './actions/user'
+import { getConnections } from './actions/connection'
 
 import Newsfeeds from './components/newsfeeds'
 import Friends from './components/friends'
@@ -28,6 +29,8 @@ function App() {
   useEffect(() => {
     dispatch(getPosts())
     dispatch(getUsers())
+    dispatch(getConnections())
+
   }, [])
 
   return (
